@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="cus_vehicle_mgt_tree_view" model="ir.ui.view">
+            <field name="name">kis.vehicle.control.tree</field>
+            <field name="model">kis.vehicle.control</field>
+            <field name="arch" type="xml">
+                <tree string="Vehicle Control Tree">
+                    <field name="name" />
+                    <field name="student_id_code" />
+                    <field name="student_academic" />
+                    <field name="classroom" />
+                    <field name="car_no" />
+                    <field name="real_car_no" />
+                    <field name="vehicle_type"/>
+                    <field name="is_sibling" />
+                    <field name="sibling_academic" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="cus_vehicle_mgt_form_view" model="ir.ui.view">
+            <field name="name">kis.vehicle.control.form</field>
+            <field name="model">kis.vehicle.control</field>
+            <field name="arch" type="xml">
+                <form string="Vehicle Control Form">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="vehicle_type" widget="radio" options="{'horizontal': True}"/>
+                                <field name="name" attrs="{'required': [('vehicle_type', '=', 'car')]}"/>
+                                <field name="student_id_code" />
+                                <field name="student_academic" />
+                                <field name="classroom" />
+                                <field name="car_no" />
+                                <field name="real_car_no" />
+                                <field name="is_sibling" />
+                                <field name="sibling_academic" attrs="{'required': [('is_sibling', '=', True)]}" />
+<!--                            <button name="get_car_no" class="btn btn-primary" type="object" string="Get" />-->
+                            </group>
+                            <group></group>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_cus_vehicle_control_view" model="ir.actions.act_window">
+            <field name="name">Vehicle Management</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">kis.vehicle.control</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="root_vehicle_management" name="Vehicle Management" sequence="0" web_icon="kings_vehicle_management,static/description/icon.png" />
+        <menuitem id="menu_cus_vehicle_mgt" name="Vehicle Control" sequence="1"
+                  parent="root_vehicle_management" action="action_cus_vehicle_control_view" />
+
+
+    </data>
+</odoo>
+

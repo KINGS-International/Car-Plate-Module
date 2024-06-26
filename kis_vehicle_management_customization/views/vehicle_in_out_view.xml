@@ -1,0 +1,51 @@
+<odoo>
+    <record id="cus_vehicle_in_out_tree" model="ir.ui.view">
+        <field name="name">kis.vehicle.in.out.tree</field>
+        <field name="model">kis.vehicle.in.out</field>
+        <field name="arch" type="xml">
+            <tree string="Vehicle In/Out" create="0" edit="0">
+                <field name="car_no"/>
+                <!--<field name="check_in_out" />-->
+                <field name="check_in"/>
+                <field name="check_out"/>
+                <field name="duration" widget="float_time"/>
+                <field name="status"/>
+<!--                <field name="check_in_out_time" />-->
+<!--                <field name="duration" widget="float_time"/>-->
+
+            </tree>
+        </field>
+    </record>
+
+    <record id="cus_vehicle_in_out_search_view" model="ir.ui.view">
+        <field name="name">Vehicle History Search</field>
+        <field name="model">kis.vehicle.in.out</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name = "car_no" />
+                <group string="Group By" expand="0">
+                    <filter string="Car No." name="groupby_car_no" context="{'group_by':'car_no'}" />
+                    <filter string="Status" name="groupby_status" context="{'gorup_by': 'status'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+     <record id="cus_vehicle_in_out_action" model="ir.actions.act_window">
+        <field name="name">Vehicles History</field>
+        <field name="res_model">kis.vehicle.in.out</field>
+        <field name="view_mode">tree,kanban,graph,pivot,form</field>
+
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                No Vehicle records found
+            </p>
+            <p>
+                The attendance records of your vehicle will be displayed here.
+            </p>
+        </field>
+    </record>
+
+     <menuitem id="menu_cus_vehicle_in_out" name="Vehicle Check In/OUt" sequence="1"
+                  parent="kis_vehicle_management_customization.root_vehicle_management" action="cus_vehicle_in_out_action" />
+</odoo>

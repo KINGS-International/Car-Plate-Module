@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Main Template -->
+        <template id="plate_recognizer.main_template">
+            <t t-call="website.layout">
+                <div id="main_plate" class="main_body" />
+            </t>
+        </template>
+        <template id="plate_recognizer.extension_template">
+            <t t-call="website.layout">
+                <div id="extension_plate" class="main_body" />
+            </t>
+        </template>
+        <template id="plate_recognizer.waiting_template">
+            <t t-call="website.layout">
+                <div id="waiting_plate" class="main_body" />
+            </t>
+        </template>
+        <template id="plate_recognizer.sign_route">
+            <t t-call="website.layout">
+                <div id="sing_route" class="main_body" />
+            </t>
+        </template>
+
+        <!-- inherit loing template -->
+        <template id='inherit_login' inherit_id="web.login">
+            <xpath expr="//label[@for='login']" position="replace">
+                <label for="login" class="form-label text-light">Email</label>
+            </xpath>
+            <xpath expr="//label[@for='password']" position="replace">
+                <label for="password" class="form-label text-light">Password</label>
+            </xpath>
+           
+        </template>
+    </data>
+</odoo>

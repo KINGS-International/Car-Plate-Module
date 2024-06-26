@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="plate_recognizer.SignRoute" owl="1">
+        <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+        <!-- design here -->
+            <div class="route" id="app">
+                <div class="header-route mt-3">
+                    <h1><t t-esc="this.state.car_no"/></h1>
+                </div>
+
+                <div class="arrow">
+                    <div>
+                        <t t-if="this.state.student_type == 'lower_pri' or this.state.sibling_academic == 'lower_pri'">
+                            <span class="material-symbols-outlined traffic-icon"> directions</span>
+                        </t>
+                        <t t-elif="this.state.student_type == 'lower_sec' or this.state.student_type == 'upper_sec' or this.state.student_type == 'upper_pri'">
+                            <span class="material-symbols-outlined traffic-icon icon-flipped">directions</span>
+                        </t>
+                        <t t-else="">
+                            <span class="material-symbols-outlined traffic-icon icon-flipped">
+                                directions
+                            </span>
+                        </t>
+                    </div>
+                </div>
+                <div class="header-route mt-3">
+                    <t t-if="this.state.student_type == 'lower_pri' or this.state.sibling_academic == 'lower_pri'">
+                        <h1>Extension Lane</h1>
+                    </t>
+                    <t t-elif="this.state.student_type == 'lower_sec' or this.state.student_type == 'upper_sec' || this.state.student_type == 'upper_pri'">
+                        <h1>Main Lane</h1> 
+                    </t>
+                    <t t-else="">
+                        <h1>Guest Lane</h1>
+                    </t>       
+                </div>
+            </div>
+    </t>
+</templates>
