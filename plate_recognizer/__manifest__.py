@@ -16,6 +16,5 @@
             'plate_recognizer/static/src/scss/*',
             'plate_recognizer/static/src/template/*'
         ],
-    
     }
 }

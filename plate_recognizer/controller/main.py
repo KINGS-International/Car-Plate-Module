@@ -75,17 +75,17 @@ class MainDisplay(http.Controller):
 
     ########################################################################################################
     # If want to changes plate code or testing and deubg, use this method                                  #
-    # use json data {"palte":"3r3454"}                                                                     #
+    # use json data {"palte":"3r3454","camera-id":"camera-1"}                                              #
     ########################################################################################################
 
     @http.route("/hook/test", type="http",auth="public", website=False, csrf=False,cors="*",methods=['POST'])
     def test_plate_with_local(self,**post):
         data = request.httprequest.data.decode()
         p = json.loads(data)
-        print("Posting from hook test route ==================================",p)
-        camera_id = "camera-3"
+        camera_id = p['camera-id']
         ####
         if p:
+            print("Posting from hook test route ==================================",p)
             vehicle_obj =request.env["kis.vehicle.control"] .sudo().search([("car_no", "ilike", p['plate'])]) ## changes
             if vehicle_obj:
                 if camera_id in ['camera-1','camera-2']:

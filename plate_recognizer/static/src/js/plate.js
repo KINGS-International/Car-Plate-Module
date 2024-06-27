@@ -38,7 +38,6 @@ class MainPlate extends Component{
     }
 
     updateData(data){
-        console.log("Update data is working ",this.state)
         if (data.camera_id === 'camera-1'){
             var ind = this.state.findIndex(d => d.car_no === data.license_plate && d.camera_id === 'camera-2')
             if(ind === -1){
