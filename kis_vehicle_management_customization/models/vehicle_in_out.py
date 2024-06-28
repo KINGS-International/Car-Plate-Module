@@ -15,13 +15,10 @@ class VehicleInOut(models.Model):
     duration = fields.Float(string="Duration",compute='_compute_duration')
     check_in = fields.Datetime()
     check_out = fields.Datetime()
-
-
     _order = 'check_in desc'
 
     def name_get(self):
         result = []
-
         for rec in self:
             result.append((rec.id, '%s - %s' % (rec.car_no, rec.status)))
         return result
@@ -40,7 +37,7 @@ class VehicleInOut(models.Model):
     @api.depends('car_no')
     def compute_state(self):
         for rec in self:
-            vehicle_obj = self.env['vehicle.control'].search([('car_no','=',rec.car_no)])
+            vehicle_obj = self.env['kis.vehicle.control'].search([('car_no','=',rec.car_no)])
             if vehicle_obj:
                 rec.status = 'register'
             else:
