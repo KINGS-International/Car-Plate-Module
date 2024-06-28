@@ -55,10 +55,10 @@ class MainDisplay(http.Controller):
                             self.pusher_sign_route(vehicle_data)
 
                     elif camera_id == "camera-3":
-                        check_in_out_obj = request.env["kis.vehicle.in.out"].search([("car_no", "=", p['plate']), ("check_out", "=", False)], limit=1)
                         self.pusher_departure_route({'plate':vehicle_data['raw_carno']}) ## departpure route
+                        check_in_out_obj = request.env["kis.vehicle.in.out"].search([("car_no", "=", p['plate']), ("check_out", "=", False)], limit=1)
                         if check_in_out_obj:
-                        check_in_out_obj.sudo().write({"check_out": new_date_time_str})         
+                            check_in_out_obj.sudo().write({"check_out": new_date_time_str})         
                     """ create history register | ungresiter & time"""
                     request.env["kis.vehicle.in.out"].sudo().create({"car_no": real_plate,"check_in": new_date_time_str,'status':'register'}) ## changes               
             else:
