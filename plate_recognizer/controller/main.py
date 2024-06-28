@@ -61,11 +61,11 @@ class MainDisplay(http.Controller):
                         check_in_out_obj.sudo().write({"check_out": new_date_time_str})
                     
                 """ create history register | ungresiter & time"""
-                request.env["kis.vehicle.in.out"].sudo().create({"car_no": real_plate,"check_in": new_date_time_str}) ## changes
+                request.env["kis.vehicle.in.out"].sudo().create({"car_no": real_plate,"check_in": new_date_time_str,'status':'register'}) ## changes
                         
             else:
                 if camera_id in ['camera-1','camera-2']:
-                    veh_history = request.env["kis.vehicle.in.out"].sudo().create({"car_no": real_plate,"check_in": new_date_time_str})
+                    veh_history = request.env["kis.vehicle.in.out"].sudo().create({"car_no": real_plate,"check_in": new_date_time_str,'status':'unregister'})
                 elif camera_id == "camera-3":
                     check_in_out_obj = request.env["kis.vehicle.in.out"].search(
                         [("car_no", "=", real_plate), ("check_out", "=", False)], limit=1
@@ -114,7 +114,9 @@ class MainDisplay(http.Controller):
                     self.pusher_departure_route({'plate':p['plate']}) ## departpure route
 
                     
-
+    #------------------------------------------#
+    # pusher method for real data return to js #                                                             
+    # ---------------------------------------- #                                                                                                  
     def pusher_client_all(self,data):
         pusher_client = pusher.Pusher(
             app_id='1804733',
@@ -166,6 +168,10 @@ class MainDisplay(http.Controller):
         )
         pusher_client.trigger('route', 'sign', {'message': data})
         
+    
+    #-------------------------#
+    # route template method   #
+    #-------------------------#
     @http.route('/main',auth="public",type="http",csrf=False,website=True,methods=['GET'])
     def main_route(self):
         return request.render('plate_recognizer.main_template')
