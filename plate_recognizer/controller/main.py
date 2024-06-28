@@ -33,20 +33,20 @@ class MainDisplay(http.Controller):
                 
             vehicle_obj =request.env["kis.vehicle.control"] .sudo().search([("car_no", "ilike", real_plate)]) ## changes
             if vehicle_obj:
-                if camera_id in ['camera-1','camera-2']:
-                    for veh in vehicle_obj:
-                        vehicle_data = {
-                            'raw_carno':veh.car_no,
-                            "license_plate": veh.real_car_no,
-                            "student_name": veh.name,
-                            "student_type": veh.student_academic,
-                            'student_id': veh.student_id_code,
-                            "classroom": veh.classroom,
-                            "is_sibling": veh.is_sibling,
-                            "sibling_academic": veh.sibling_academic,
-                            "camera_id":camera_id,
-                        }
-                        self.pusher_client_all(vehicle_data) ## main route 
+                for veh in vehicle_obj:
+                    vehicle_data = {
+                        'raw_carno':veh.car_no,
+                        "license_plate": veh.real_car_no,
+                        "student_name": veh.name,
+                        "student_type": veh.student_academic,
+                        'student_id': veh.student_id_code,
+                        "classroom": veh.classroom,
+                        "is_sibling": veh.is_sibling,
+                        "sibling_academic": veh.sibling_academic,
+                        "camera_id":camera_id,
+                    }
+                    self.pusher_client_all(vehicle_data) ## main route 
+                    if camera_id in ['camera-1','camera-2']:
                         if veh.student_academic == "lower_pri" or (veh.is_sibling == True and (veh.sibling_academic == "lower_pri")) and veh.vehicle_type == "car" :
                             self.pusher_extension_lane(vehicle_data) ## extension route
                             self.pusher_sign_route(vehicle_data)
@@ -54,15 +54,13 @@ class MainDisplay(http.Controller):
                             self.pusher_waiting_lane(vehicle_data) ## waiting route
                             self.pusher_sign_route(vehicle_data)
 
-                elif camera_id == "camera-3":
-                    check_in_out_obj = request.env["kis.vehicle.in.out"].search([("car_no", "=", real_plate), ("check_out", "=", False)], limit=1)
-                    self.pusher_departure_route({'plate':real_plate}) ## departpure route
-                    if check_in_out_obj:
-                        check_in_out_obj.sudo().write({"check_out": new_date_time_str})
-                    
-                """ create history register | ungresiter & time"""
-                request.env["kis.vehicle.in.out"].sudo().create({"car_no": real_plate,"check_in": new_date_time_str,'status':'register'}) ## changes
-                        
+                    elif camera_id == "camera-3":
+                        check_in_out_obj = request.env["kis.vehicle.in.out"].search([("car_no", "=", p['plate']), ("check_out", "=", False)], limit=1)
+                        self.pusher_departure_route({'plate':vehicle_data['raw_carno']}) ## departpure route
+                        if check_in_out_obj:
+                        check_in_out_obj.sudo().write({"check_out": new_date_time_str})         
+                    """ create history register | ungresiter & time"""
+                    request.env["kis.vehicle.in.out"].sudo().create({"car_no": real_plate,"check_in": new_date_time_str,'status':'register'}) ## changes               
             else:
                 if camera_id in ['camera-1','camera-2']:
                     veh_history = request.env["kis.vehicle.in.out"].sudo().create({"car_no": real_plate,"check_in": new_date_time_str,'status':'unregister'})
@@ -88,20 +86,20 @@ class MainDisplay(http.Controller):
             print("Posting from hook test route ==================================",p)
             vehicle_obj =request.env["kis.vehicle.control"] .sudo().search([("car_no", "ilike", p['plate'])]) ## changes
             if vehicle_obj:
-                if camera_id in ['camera-1','camera-2']:
-                    for veh in vehicle_obj:
-                        vehicle_data = {
-                            'raw_carno':veh.car_no,
-                            "license_plate": veh.real_car_no,
-                            "student_name": veh.name,
-                            "student_type": veh.student_academic,
-                            'student_id': veh.student_id_code,
-                            "classroom": veh.classroom,
-                            "is_sibling": veh.is_sibling,
-                            "sibling_academic": veh.sibling_academic,
-                            "camera_id":camera_id,
-                        }
-                        self.pusher_client_all(vehicle_data) ## main route 
+                for veh in vehicle_obj:
+                    vehicle_data = {
+                        'raw_carno':veh.car_no,
+                        "license_plate": veh.real_car_no,
+                        "student_name": veh.name,
+                        "student_type": veh.student_academic,
+                        'student_id': veh.student_id_code,
+                        "classroom": veh.classroom,
+                        "is_sibling": veh.is_sibling,
+                        "sibling_academic": veh.sibling_academic,
+                        "camera_id":camera_id,
+                    }
+                    self.pusher_client_all(vehicle_data) ## main route 
+                    if camera_id in ['camera-1','camera-2']:
                         if veh.student_academic == "lower_pri" or (veh.is_sibling == True and (veh.sibling_academic == "lower_pri")) and veh.vehicle_type == "car" :
                             self.pusher_extension_lane(vehicle_data) ## extension route
                             self.pusher_sign_route(vehicle_data)
@@ -109,10 +107,12 @@ class MainDisplay(http.Controller):
                             self.pusher_waiting_lane(vehicle_data) ## waiting route
                             self.pusher_sign_route(vehicle_data)
 
-                elif camera_id == "camera-3":
-                    check_in_out_obj = request.env["vehicle.in.out"].search([("car_no", "=", p['plate']), ("check_out", "=", False)], limit=1)
-                    self.pusher_departure_route({'plate':p['plate']}) ## departpure route
-
+                    elif camera_id == "camera-3":
+                        check_in_out_obj = request.env["kis.vehicle.in.out"].search([("car_no", "=", p['plate']), ("check_out", "=", False)], limit=1)
+                        self.pusher_departure_route({'plate':vehicle_data['raw_carno']}) ## departpure route
+                        if check_in_out_obj:
+                            check_in_out_obj.sudo().write({"check_out": new_date_time_str})
+                            
                     
     #------------------------------------------#
     # pusher method for real data return to js #                                                             

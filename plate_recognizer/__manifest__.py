@@ -6,7 +6,7 @@
     "summary": "Plate reconginzer",
     "application": True,
     "auto_install": False,
-    "depends":['base','website','web','kings_vehicle_management'],
+    "depends":['base','website','web','kis_vehicle_management_customization'],
     "data":[
         'views/all_template.xml',
     ],

@@ -29,11 +29,10 @@ class MainPlate extends Component{
     }
     departureData(data){
        if(data !== undefined){
-            this.state.forEach((d,index)=>{
-                if (d.raw_carno === data.plate){
-                    this.state.splice(index)
-                }
-            })
+            var ind = this.state.findIndex(d => d.raw_carno === data.plate)
+            if(ind !== -1){
+                this.state.splice(ind,1)
+            }
        }
     }
 
@@ -105,13 +104,11 @@ class ExtensionPlate extends Component{
     }
     departureData(data){
         if(data !== undefined){
-             this.state.forEach((d,index)=>{
-                 if (d.raw_carno === data.plate){
-                     this.state.splice(index)
-                 }
-             })
+            var ind = this.state.findIndex(d => d.raw_carno === data.plate)
+            if(ind !== -1){
+                this.state.splice(ind,1)
+            }
         }
- 
      }
  
     updateData(data){
@@ -181,13 +178,11 @@ class WaitingPlate extends Component{
     }
     departureData(data){
         if(data !== undefined){
-             this.state.forEach((d,index)=>{
-                 if (d.raw_carno === data.plate){
-                     this.state.splice(index)
-                 }
-             })
+            var ind = this.state.findIndex(d => d.raw_carno === data.plate)
+            if(ind !== -1){
+                this.state.splice(ind,1)
+            }
         }
- 
      }
  
     updateData(data){
@@ -271,4 +266,3 @@ whenReady(()=>{
         mount(SignRoute,element,{templates})
     }
 })
-
