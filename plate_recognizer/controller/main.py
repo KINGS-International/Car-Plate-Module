@@ -60,7 +60,8 @@ class MainDisplay(http.Controller):
                         if check_in_out_obj:
                             check_in_out_obj.sudo().write({"check_out": new_date_time_str})         
                 """ create history register | ungresiter & time"""
-                request.env["kis.vehicle.in.out"].sudo().create({"car_no": real_plate,"check_in": new_date_time_str,'status':'register'}) ## changes               
+                res = request.env["kis.vehicle.in.out"].sudo().create({"car_no": real_plate,"check_in": new_date_time_str,'status':'register'}) ## changes
+                print ("Create histroy is successfully--------")        
             else:
                 if camera_id in ['camera-1','camera-2']:
                     veh_history = request.env["kis.vehicle.in.out"].sudo().create({"car_no": real_plate,"check_in": new_date_time_str,'status':'unregister'})
