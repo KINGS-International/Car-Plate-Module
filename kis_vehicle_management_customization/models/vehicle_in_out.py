@@ -11,7 +11,7 @@ class VehicleInOut(models.Model):
     car_no = fields.Char()
     check_in_out_time = fields.Datetime(string="Check In/Out Time")
     check_in_out = fields.Selection([('check_in','Check In'),('check_out','Check Out')])
-    status = fields.Selection([('register','Register'),('unregister','Unregister')],)
+    status = fields.Selection([('register','Register'),('unregister','Unregister')],compute="_compute_state",store=True)
     duration = fields.Float(string="Duration",compute='_compute_duration')
     check_in = fields.Datetime()
     check_out = fields.Datetime()
@@ -34,11 +34,11 @@ class VehicleInOut(models.Model):
                                (float(diff_time.seconds) / 3600)
                     rec.duration = round(duration, 2)
 
-    # @api.depends('car_no')
-    # def compute_state(self):
-    #     for rec in self:
-    #         vehicle_obj = self.env['kis.vehicle.control'].search([('car_no','=',rec.car_no)])
-    #         if vehicle_obj:
-    #             rec.status = 'register'
-    #         else:
-    #             rec.status = 'unregister'
+    @api.depends('car_no')
+    def _compute_state(self):
+        for rec in self:
+            vehicle_obj = self.env['kis.vehicle.control'].search([('car_no','=',rec.car_no)])
+            if vehicle_obj:
+                rec.status = 'register'
+            else:
+                rec.status = 'unregister'

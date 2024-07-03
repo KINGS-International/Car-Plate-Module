@@ -64,12 +64,12 @@ class HookData(http.Controller):
                         if check_in_out_obj:
                             check_in_out_obj.sudo().write({"check_out": new_date_time_str})         
                 """ create history register | ungresiter & time"""
-                res = request.env["kis.vehicle.in.out"].sudo().create({"car_no": real_plate,"check_in": new_date_time_str,'status':'register'}) ## changes
+                res = request.env["kis.vehicle.in.out"].sudo().create({"car_no": real_plate,"check_in": new_date_time_str,}) ## changes
                 print ("Create histroy is successfully-----------------------------------------",real_plate)        
             else:
                 print("Vehicle object is not -------------------------------------",vehicle_obj)
                 if camera_id in ['camera-1','camera-2']:
-                    veh_history = request.env["kis.vehicle.in.out"].sudo().create({"car_no": real_plate,"check_in": new_date_time_str,'status':'register'})
+                    veh_history = request.env["kis.vehicle.in.out"].sudo().create({"car_no": real_plate,"check_in": new_date_time_str})
                 elif camera_id == "camera-3":
                     check_in_out_obj = request.env["kis.vehicle.in.out"].search(
                         [("car_no", "=", real_plate), ("check_out", "=", False)], limit=1
