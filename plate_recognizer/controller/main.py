@@ -5,7 +5,7 @@ import pusher
 from datetime import datetime, timedelta
 
 
-class MainDisplay(http.Controller):
+class HookData(http.Controller):
     # webhook
     @http.route("/hook/data", type="http",auth="public", website=False, csrf=False,cors="*",methods=['POST'])
     def read_plate_from_json(self,**post):
@@ -33,6 +33,7 @@ class MainDisplay(http.Controller):
                 
             vehicle_obj =request.env["kis.vehicle.control"] .sudo().search([("car_no", "ilike", real_plate)]) ## changes
             if vehicle_obj:
+                print("Vehicle object is -------------------------------------",vehicle_obj)
                 for veh in vehicle_obj:
                     vehicle_data = {
                         'raw_carno':veh.car_no,
@@ -64,6 +65,7 @@ class MainDisplay(http.Controller):
                 res = request.env["kis.vehicle.in.out"].sudo().create({"car_no": real_plate,"check_in": new_date_time_str,'status':'register'}) ## changes
                 print ("Create histroy is successfully-----------------------------------------",real_plate)        
             else:
+                print("Vehicle object is not -------------------------------------",vehicle_obj)
                 if camera_id in ['camera-1','camera-2']:
                     veh_history = request.env["kis.vehicle.in.out"].sudo().create({"car_no": real_plate,"check_in": new_date_time_str,'status':'unregister'})
                 elif camera_id == "camera-3":
@@ -86,6 +88,7 @@ class MainDisplay(http.Controller):
         ####
         vehicle_obj =request.env["kis.vehicle.control"] .sudo().search([("car_no", "ilike", p['plate'])]) ## changes
         if vehicle_obj:
+            print("Vehicle object is -------------------------------------",vehicle_obj)
             for veh in vehicle_obj:
                 vehicle_data = {
                     'raw_carno':veh.car_no,
