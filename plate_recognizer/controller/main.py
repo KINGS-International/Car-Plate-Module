@@ -53,6 +53,7 @@ class MainDisplay(http.Controller):
                         elif veh.student_academic in ("upper_pri", "lower_sec", "upper_sec")and veh.vehicle_type == "car" :
                             self.pusher_waiting_lane(vehicle_data) ## waiting route
                             self.pusher_sign_route(vehicle_data)
+                        print("Coming From camera 1 & 2 ---------------------------------------------",)
 
                     elif camera_id == "camera-3":
                         self.pusher_departure_route({'plate':vehicle_data['raw_carno']}) ## departpure route
@@ -61,7 +62,7 @@ class MainDisplay(http.Controller):
                             check_in_out_obj.sudo().write({"check_out": new_date_time_str})         
                 """ create history register | ungresiter & time"""
                 res = request.env["kis.vehicle.in.out"].sudo().create({"car_no": real_plate,"check_in": new_date_time_str,'status':'register'}) ## changes
-                print ("Create histroy is successfully--------")        
+                print ("Create histroy is successfully-----------------------------------------",real_plate)        
             else:
                 if camera_id in ['camera-1','camera-2']:
                     veh_history = request.env["kis.vehicle.in.out"].sudo().create({"car_no": real_plate,"check_in": new_date_time_str,'status':'unregister'})
@@ -105,6 +106,7 @@ class MainDisplay(http.Controller):
                     elif veh.student_academic in ("upper_pri", "lower_sec", "upper_sec")and veh.vehicle_type == "car" :
                         self.pusher_waiting_lane(vehicle_data) ## waiting route
                         self.pusher_sign_route(vehicle_data)
+                    print("Coming From camera 1 & 2 ---------------------------------------------",)
 
                 elif camera_id == "camera-3":
                     self.pusher_departure_route({'plate':vehicle_data['raw_carno']}) ## departpure route
