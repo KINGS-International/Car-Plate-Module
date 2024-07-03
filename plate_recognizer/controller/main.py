@@ -12,6 +12,7 @@ class HookData(http.Controller):
         if "json" in post:
             json_data = json.loads(post["json"])
             # # # Access the first result in the "results" list
+            print("Json Data is ----------------------------",json_data)
             result = json_data["data"]["results"][0]
             plate_no = result["plate"][:6]
             camera_id = json_data["data"]["camera_id"] # 'camera-1'
