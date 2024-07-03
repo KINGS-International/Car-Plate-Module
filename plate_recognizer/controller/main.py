@@ -9,6 +9,7 @@ class HookData(http.Controller):
     # webhook
     @http.route("/hook/data", type="http",auth="public", website=False, csrf=False,cors="*",methods=['POST'])
     def read_plate_from_json(self,**post):
+        print("Post method is --------------------------------------------",post)
         if "json" in post:
             json_data = json.loads(post["json"])
             # # # Access the first result in the "results" list
