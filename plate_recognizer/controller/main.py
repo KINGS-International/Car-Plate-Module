@@ -7,9 +7,8 @@ from datetime import datetime, timedelta
 
 class HookData(http.Controller):
     # webhook
-    @http.route("/hook/data", type="http",auth="public", website=False, csrf=False,cors="*",methods=['POST'])
+    @http.route("/hook/data", type="http",auth="public", website=False, csrf=False,methods=['POST'])
     def read_plate_from_json(self,**post):
-        print("Post method is --------------------------------------------",post)
         if "json" in post:
             json_data = json.loads(post["json"])
             # # # Access the first result in the "results" list
@@ -59,12 +58,15 @@ class HookData(http.Controller):
                             self.pusher_sign_route(vehicle_data)
                     elif camera_id == "camera-3":
                         self.pusher_departure_route({'plate':vehicle_data['raw_carno']}) ## departpure route
-                        check_in_out_obj = request.env["kis.vehicle.in.out"].search([("car_no", "=",real_plate ), ("check_out", "=", False)], limit=1)
+                        check_in_out_obj = request.env["kis.vehicle.in.out"].search([("car_no", "=",real_plate ),("check_out", "=", False)], limit=1)
                         if check_in_out_obj:
-                            check_in_out_obj.sudo().write({"check_out": new_date_time_str})         
+                            check_in_out_obj.sudo().write({"check_out": new_date_time_str})     
+
+                """ create history register | ungresiter & time"""
+                request.env["kis.vehicle.in.out"].sudo().create({"car_no":real_plate,"check_in": new_date_time_str})
             else:
                 if camera_id in ['camera-1','camera-2']:
-                    request.env["kis.vehicle.in.out"].sudo().create({"car_no": real_plate,"check_in": new_date_time_str})
+                    request.env["kis.vehicle.in.out"].sudo().create({"car_no":real_plate,"check_in": new_date_time_str})
                 elif camera_id == "camera-3":
                     check_in_out_obj = request.env["kis.vehicle.in.out"].search(
                         [("car_no", "=", real_plate), ("check_out", "=", False)], limit=1
@@ -77,7 +79,7 @@ class HookData(http.Controller):
     # use json data {"palte":"3r3454","camera-id":"camera-1",'time':'2024-07-03 15:31:17.266056+06:30'}    #
     ########################################################################################################
 
-    @http.route("/hook/test", type="http",auth="public", website=False, csrf=False,cors="*",methods=['POST'])
+    @http.route("/hook/test", type="http",auth="public", website=False, csrf=False,methods=['POST'])
     def test_plate_with_local(self,**post):
         data = request.httprequest.data.decode()
         p = json.loads(data)
@@ -112,7 +114,7 @@ class HookData(http.Controller):
 
                 elif camera_id == "camera-3":
                     self.pusher_departure_route({'plate':vehicle_data['raw_carno']}) ## departpure route
-                    check_in_out_obj = request.env["kis.vehicle.in.out"].search([("car_no", "=",p['plate'] ), ("check_out", "=", False)], limit=1)
+                    check_in_out_obj = request.env["kis.vehicle.in.out"].search([("car_no", "=",p['plate'] ),("check_out", "=", False)], limit=1)
                     if check_in_out_obj:
                         check_in_out_obj.sudo().write({"check_out": new_date_time_str})   
 
