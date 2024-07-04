@@ -35,6 +35,8 @@ class HookData(http.Controller):
                 
             vehicle_obj =request.env["kis.vehicle.control"] .sudo().search([("car_no", "ilike", real_plate)]) ## changes
             if vehicle_obj:
+                # """ create history register | ungresiter & time"""
+                request.env["kis.vehicle.in.out"].sudo().create({"car_no": real_plate,"check_in": new_date_time_str,})
                 for veh in vehicle_obj:
                     vehicle_data = {
                         'raw_carno':veh.car_no,
@@ -60,8 +62,6 @@ class HookData(http.Controller):
                         check_in_out_obj = request.env["kis.vehicle.in.out"].search([("car_no", "=",real_plate ), ("check_out", "=", False)], limit=1)
                         if check_in_out_obj:
                             check_in_out_obj.sudo().write({"check_out": new_date_time_str})         
-                # """ create history register | ungresiter & time"""
-                request.env["kis.vehicle.in.out"].sudo().create({"car_no": real_plate,"check_in": new_date_time_str,}) ## changes
             else:
                 if camera_id in ['camera-1','camera-2']:
                     request.env["kis.vehicle.in.out"].sudo().create({"car_no": real_plate,"check_in": new_date_time_str})
@@ -120,7 +120,7 @@ class HookData(http.Controller):
             request.env["kis.vehicle.in.out"].sudo().create({"car_no": p['plate']}) ## changes  
         else:
             if camera_id in ['camera-1','camera-2']:
-                request.env["kis.vehicle.in.out"].sudo().create({"car_no":p['plate']}) ## changes  
+                request.env["kis.vehicle.in.out"].sudo().create({"car_no":p['plate']})
             elif camera_id == "camera-3":
                 check_in_out_obj = request.env["kis.vehicle.in.out"].search(
                     [("car_no", "=", p['plate']), ("check_out", "=", False)], limit=1
