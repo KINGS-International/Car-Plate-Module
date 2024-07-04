@@ -39,6 +39,6 @@ class VehicleInOut(models.Model):
         for rec in self:
             vehicle_obj = self.env['kis.vehicle.control'].search([('car_no','=',rec.car_no)])
             if vehicle_obj:
-                rec.status = 'register'
+                self.status = 'register'
             else:
-                rec.status = 'unregister'
+                self.status = 'unregister'
