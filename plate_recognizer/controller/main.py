@@ -34,8 +34,6 @@ class HookData(http.Controller):
                 
             vehicle_obj =request.env["kis.vehicle.control"] .sudo().search([("car_no", "ilike", real_plate)]) ## changes
             if vehicle_obj:
-                # """ create history register | ungresiter & time"""
-                request.env["kis.vehicle.in.out"].sudo().create({"car_no": real_plate,"check_in": new_date_time_str,})
                 for veh in vehicle_obj:
                     vehicle_data = {
                         'raw_carno':veh.car_no,
@@ -86,7 +84,6 @@ class HookData(http.Controller):
         camera_id = p['camera-id']
         vehicle_model = request.env["kis.vehicle.in.out"]
         ####
-        print("pp==============================",p)
         vehicle_obj =request.env["kis.vehicle.control"] .sudo().search([("car_no", "ilike", p['plate'])]) ## changes
         if vehicle_obj:
             print("Vehicle object is -------------------------------------",vehicle_obj)
@@ -204,21 +201,3 @@ class HookData(http.Controller):
     @http.route('/route',auth="public",type="http",csrf=False,website=True,methods=['GET'])
     def sing_route(self):
         return request.render('plate_recognizer.sign_route')
-
-
-"""
-
-{'json':
-   '{"hook": {"target": "http://172.20.2.2:8070/hook/data", "id": "camera-1",
-    "event": "recognition", "filename": "camera-1_screenshots/24-07-03/15-31-17.266056.jpg"},
-    "data": {"camera_id": "camera-1", "filename": "camera-1_screenshots/24-07-03/15-31-17.266056.jpg", "
-    timestamp": "2024-07-03T09:01:17.266056Z", "timestamp_local": "2024-07-03 15:31:17.266056+06:30",
-    "results": [{"box": {"xmin": 489, "ymin": 403, "xmax": 624, "ymax": 466}, "plate": "9p6788", 
-    "region": {"code": "us-or", "score": 0.102}, "score": 0.899, 
-    "candidates": [{"score": 0.899, "plate": "9p6788"}, {"score": 0.799, "plate": "9p67b8"}, {"score": 0.798, "plate": "9p678b"}, {"score": 0.698, "plate": "9p67bb"}], 
-    "dscore": 0.769, "vehicle": {"score": 0.606, "type": "Pickup Truck", "box": {"xmin": 1389, "ymin": 545, "xmax": 2170, "ymax": 1183}}, "direction": "", 
-    "source_url": "rtsp://admin:admin123@172.20.1.101:554/cam/realmonitor?channel=1&subtype=0", "position_sec": "23490.99195162", "user_data": ""}]}}',
-     'upload': <FileStorage: '15-31-17.266056.jpg' ('image/jpeg')>
-}
-
-"""
