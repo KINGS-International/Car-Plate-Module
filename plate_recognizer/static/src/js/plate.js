@@ -18,6 +18,7 @@ class MainPlate extends Component{
             var self = this; // Store reference to 'this'
             channel.bind('all',function(data) {
                 self.updateData(data.message)
+                console.log("input data --",data.message)
             });
 
            var dchannel =pusher.subscribe('out');
@@ -31,7 +32,10 @@ class MainPlate extends Component{
        if(data !== undefined){
             var ind = this.state.findIndex(d => d.raw_carno === data.plate)
             if(ind !== -1){
+                console.log("Departure car is working",ind,data.plate)
                 this.state.splice(ind,1)
+            }else{
+                console.log("Departure car is not working",ind,data.plate)
             }
        }
     }
@@ -62,7 +66,6 @@ class MainPlate extends Component{
                 })
             }
         }
-        console.log("Main data ->",data)
     }
       
 }
@@ -95,6 +98,7 @@ class ExtensionPlate extends Component{
             var self = this; // Store reference to 'this'
             channel.bind('display-1',function(data) {
                 self.updateData(data.message)
+                console.log("input data --",data.message)
             });
             pusher.subscribe('out').bind('departure',function(data){
                 self.departureData(data.message)
@@ -106,7 +110,10 @@ class ExtensionPlate extends Component{
         if(data !== undefined){
             var ind = this.state.findIndex(d => d.raw_carno === data.plate)
             if(ind !== -1){
+                console.log("Departure car is working",ind,data.plate)
                 this.state.splice(ind,1)
+            }else{
+                console.log("Departure car is not working",ind,data.plate)
             }
         }
      }
@@ -137,7 +144,6 @@ class ExtensionPlate extends Component{
                 })
             }
         }
-        console.log("Extension data ->",data)
      }
 }
 
@@ -169,6 +175,7 @@ class WaitingPlate extends Component{
             var self = this; // Store reference to 'this'
             channel.bind('display-2',function(data) {
                 self.updateData(data.message)
+                console.log("input data --",data.message)
             });
             pusher.subscribe('out').bind('departure',function(data){
                 self.departureData(data.message)
@@ -180,7 +187,10 @@ class WaitingPlate extends Component{
         if(data !== undefined){
             var ind = this.state.findIndex(d => d.raw_carno === data.plate)
             if(ind !== -1){
+                console.log("Departure car is working",ind,data.plate)
                 this.state.splice(ind,1)
+            }else{
+                console.log("Departure car is not working",ind,data.plate)
             }
         }
      }
@@ -211,7 +221,6 @@ class WaitingPlate extends Component{
                 })
             }
         }
-        console.log("Waiting data ->",data)
      }
     
 }

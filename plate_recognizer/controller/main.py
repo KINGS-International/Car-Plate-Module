@@ -46,15 +46,15 @@ class HookData(http.Controller):
                         "sibling_academic": veh.sibling_academic,
                         "camera_id":camera_id,
                     }
-                    self.pusher_client_all(vehicle_data) ## main route 
                     if camera_id in ['camera-1','camera-2']:
+                        self.pusher_client_all(vehicle_data) ## main route 
                         if veh.student_academic == "lower_pri" or (veh.is_sibling == True and (veh.sibling_academic == "lower_pri")) and veh.vehicle_type == "car" :
                             self.pusher_extension_lane(vehicle_data) ## extension route
                             self.pusher_sign_route(vehicle_data)
                         elif veh.student_academic in ("upper_pri", "lower_sec", "upper_sec")and veh.vehicle_type == "car" :
                             self.pusher_waiting_lane(vehicle_data) ## waiting route
                             self.pusher_sign_route(vehicle_data)
-                    elif camera_id == "camera-3":
+                    elif camera_id in ["camera-3"]:
                         self.pusher_departure_route({'plate':vehicle_data['raw_carno']}) ## departpure route
                         check_in_out_obj = request.env["kis.vehicle.in.out"].search([("car_no", "=",real_plate ),("check_out", "=", False)], limit=1)
                         if check_in_out_obj:
@@ -65,7 +65,7 @@ class HookData(http.Controller):
             else:
                 if camera_id in ['camera-1','camera-2']:
                     request.env["kis.vehicle.in.out"].sudo().create({"car_no":real_plate,"check_in": new_date_time_str})
-                elif camera_id == "camera-3":
+                elif camera_id in ["camera-3"]:
                     check_in_out_obj = request.env["kis.vehicle.in.out"].search(
                         [("car_no", "=", real_plate), ("check_out", "=", False)], limit=1
                     )
@@ -99,8 +99,8 @@ class HookData(http.Controller):
                     "sibling_academic": veh.sibling_academic,
                     "camera_id":camera_id,
                 }
-                self.pusher_client_all(vehicle_data) ## main route 
                 if camera_id in ['camera-1','camera-2']:
+                    self.pusher_client_all(vehicle_data) ## main route 
                     if veh.student_academic == "lower_pri" or (veh.is_sibling == True and (veh.sibling_academic == "lower_pri")) and veh.vehicle_type == "car" :
                         self.pusher_extension_lane(vehicle_data) ## extension route
                         self.pusher_sign_route(vehicle_data)
@@ -109,18 +109,21 @@ class HookData(http.Controller):
                         self.pusher_sign_route(vehicle_data)
                     print("Coming From camera 1 & 2 ---------------------------------------------",)
 
-                elif camera_id == "camera-3":
+                elif camera_id in ["camera-3"]:
                     self.pusher_departure_route({'plate':vehicle_data['raw_carno']}) ## departpure route
                     check_in_out_obj = request.env["kis.vehicle.in.out"].search([("car_no", "=",p['plate'] ),("check_out", "=", False)], limit=1)
                     if check_in_out_obj:
-                        check_in_out_obj.sudo().write({"check_out": new_date_time_str})   
+                        pass
+                        # check_in_out_obj.sudo().write({"check_out": new_date_time_str})   
 
             """ create history register | ungresiter & time"""
             request.env["kis.vehicle.in.out"].sudo().create({"car_no": p['plate']}) ## changes  
         else:
             if camera_id in ['camera-1','camera-2']:
+                print("Not car ----------------------------",p['plate'],camera_id)
                 request.env["kis.vehicle.in.out"].sudo().create({"car_no":p['plate']})
-            elif camera_id == "camera-3":
+            elif camera_id in ["camera-3"]:
+                print("Not car ----------------------------",p['plate'],camera_id)
                 check_in_out_obj = request.env["kis.vehicle.in.out"].search(
                     [("car_no", "=", p['plate']), ("check_out", "=", False)], limit=1
                 )
@@ -190,11 +193,11 @@ class HookData(http.Controller):
     def main_route(self):
         return request.render('plate_recognizer.main_template')
     
-    @http.route('/extension',auth="public",type="http",csrf=False,website=True,methods=['GET'])
+    @http.route('/lp-2',auth="public",type="http",csrf=False,website=True,methods=['GET'])
     def extension_route(self):
         return request.render('plate_recognizer.extension_template')
 
-    @http.route('/waiting',auth="public",type="http",csrf=False,website=True,methods=['GET'])
+    @http.route('/lp-1',auth="public",type="http",csrf=False,website=True,methods=['GET'])
     def waiting_route(self):
         return request.render('plate_recognizer.waiting_template')
 
