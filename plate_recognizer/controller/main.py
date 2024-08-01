@@ -46,25 +46,40 @@ class HookData(http.Controller):
                         "sibling_academic": veh.sibling_academic,
                         "camera_id":camera_id,
                     }
+                    self.pusher_client_all(vehicle_data) ## main route 
                     if camera_id in ['camera-1','camera-2']:
-                        self.pusher_client_all(vehicle_data) ## main route 
-                        if veh.student_academic == "lower_pri" or (veh.is_sibling == True and (veh.sibling_academic == "lower_pri")) and veh.vehicle_type == "car" :
-                            self.pusher_extension_lane(vehicle_data) ## extension route
+                        if veh.is_sibling:
                             self.pusher_sign_route(vehicle_data)
-                        elif veh.student_academic in ("upper_pri", "lower_sec", "upper_sec")and veh.vehicle_type == "car" :
-                            self.pusher_waiting_lane(vehicle_data) ## waiting route
+
+                        elif veh.student_academic in ['y3','y4','y6','y7','y8','y9'] and veh.lane == 'l1':
                             self.pusher_sign_route(vehicle_data)
-                    elif camera_id in ["camera-3"]:
-                        self.pusher_departure_route({'plate':vehicle_data['raw_carno']}) ## departpure route
-                        check_in_out_obj = request.env["kis.vehicle.in.out"].search([("car_no", "=",real_plate ),("check_out", "=", False)], limit=1)
-                        if check_in_out_obj:
-                            check_in_out_obj.sudo().write({"check_out": new_date_time_str})     
+                            self.pusher_lane_one(vehicle_data)
+                            print(f"Coming car is{camera_id} and lane is {veh.lane} {veh.student_academic}")
+
+                        elif veh.student_academic in ['y1','y2','y5','preschool'] and veh.lane == 'l2':
+                            self.pusher_sign_route(vehicle_data)
+                            self.pusher_lane_two(vehicle_data)
+                            print(f"Coming car is{camera_id} and lane is {veh.lane} {veh.student_academic}")
+
+
+                    elif camera_id in ['camera-3'] and  veh.lane == 'l3':
+                        if veh.student_academic in ['y10','y11'] and not veh.is_sibling:
+                            self.pusher_lane_three(vehicle_data)
+                            print(f"Coming car is{camera_id} and lane is {veh.lane} {veh.student_academic}")
+
+                    elif camera_id in ['camera-4'] and  veh.lane == 'l4':
+                        if veh.is_sibling:
+                            self.pusher_lane_four(vehicle_data)
+                            print(f"Coming car is{camera_id} and lane is {veh.lane} {veh.student_academic}")
 
                 """ create history register | ungresiter & time"""
                 request.env["kis.vehicle.in.out"].sudo().create({"car_no":real_plate,"check_in": new_date_time_str})
             else:
                 if camera_id in ['camera-1','camera-2']:
+                    guest_data = {'license_plate':p['plate'],'lane':'guest'}
+                    self.pusher_sign_route(guest_data)
                     request.env["kis.vehicle.in.out"].sudo().create({"car_no":real_plate,"check_in": new_date_time_str})
+                    
                 elif camera_id in ["camera-3"]:
                     check_in_out_obj = request.env["kis.vehicle.in.out"].search(
                         [("car_no", "=", real_plate), ("check_out", "=", False)], limit=1
@@ -92,24 +107,46 @@ class HookData(http.Controller):
                     'raw_carno':veh.car_no,
                     "license_plate": veh.real_car_no,
                     "student_name": veh.name,
-                    "student_type": veh.student_academic,
-                    'student_id': veh.student_id_code,
+                    # "student_type": veh.student_academic,
+                    # 'student_id': veh.student_id_code,
                     "classroom": veh.classroom,
+                    'lane':veh.lane,
                     "is_sibling": veh.is_sibling,
-                    "sibling_academic": veh.sibling_academic,
+                    # "sibling_academic": veh.sibling_academic,
                     "camera_id":camera_id,
                 }
+                self.pusher_client_all(vehicle_data) ## main route 
                 if camera_id in ['camera-1','camera-2']:
-                    self.pusher_client_all(vehicle_data) ## main route 
-                    if veh.student_academic == "lower_pri" or (veh.is_sibling == True and (veh.sibling_academic == "lower_pri")) and veh.vehicle_type == "car" :
-                        self.pusher_extension_lane(vehicle_data) ## extension route
+                    if veh.is_sibling:
                         self.pusher_sign_route(vehicle_data)
-                    elif veh.student_academic in ("upper_pri", "lower_sec", "upper_sec")and veh.vehicle_type == "car" :
-                        self.pusher_waiting_lane(vehicle_data) ## waiting route
-                        self.pusher_sign_route(vehicle_data)
-                    print("Coming From camera 1 & 2 ---------------------------------------------",)
+                        print(f"Coming car is{camera_id} and is sibling and lane is {veh.lane} {veh.student_academic}")
 
-                elif camera_id in ["camera-3"]:
+                    elif veh.student_academic in ['y3','y4','y6','y7','y8','y9'] and veh.lane == 'l1':
+                        self.pusher_sign_route(vehicle_data)
+                        self.pusher_lane_one(vehicle_data)
+                        print(f"Coming car is{camera_id} and is sibling and lane - 1 {veh.student_academic}")
+
+                    elif veh.student_academic in ['y1','y2','y5','preschool'] and veh.lane == 'l2':
+                        self.pusher_sign_route(vehicle_data)
+                        self.pusher_lane_two(vehicle_data)
+                        print(f"Coming car is{camera_id} and is sibling and lane is {veh.lane} {veh.student_academic}")
+
+                elif camera_id in ['camera-3'] and  veh.lane == 'l3':
+                    if veh.student_academic in ['y10','y11'] and not veh.is_sibling:
+                        self.pusher_lane_three(vehicle_data)
+                        print(f"Coming car is{camera_id} and is sibling and lane is {veh.lane} {veh.student_academic}")
+                elif camera_id in ['camera-4'] and  veh.lane == 'l4':
+                    if veh.is_sibling:
+                        self.pusher_lane_four(vehicle_data)
+                        print(f"Coming car is{camera_id} and is sibling and lane {veh.lane} {veh.student_academic}")
+                    # if veh.student_academic == "lower_pri" or (veh.is_sibling == True and (veh.sibling_academic == "lower_pri")) and veh.vehicle_type == "car" :
+                    #     self.pusher_extension_lane(vehicle_data) ## extension route
+                    #     self.pusher_sign_route(vehicle_data)
+                    # elif veh.student_academic in ("upper_pri", "lower_sec", "upper_sec")and veh.vehicle_type == "car" :
+                    #     self.pusher_waiting_lane(vehicle_data) ## waiting route
+                    #     self.pusher_sign_route(vehicle_data)
+
+                elif camera_id in ["camera-5","camera-6","camera-7","camera-8"]:
                     self.pusher_departure_route({'plate':vehicle_data['raw_carno']}) ## departpure route
                     check_in_out_obj = request.env["kis.vehicle.in.out"].search([("car_no", "=",p['plate'] ),("check_out", "=", False)], limit=1)
                     if check_in_out_obj:
@@ -120,6 +157,8 @@ class HookData(http.Controller):
             request.env["kis.vehicle.in.out"].sudo().create({"car_no": p['plate']}) ## changes  
         else:
             if camera_id in ['camera-1','camera-2']:
+                guest_data = {'license_plate':p['plate'],'lane':'guest'}
+                self.pusher_sign_route(guest_data)
                 print("Not car ----------------------------",p['plate'],camera_id)
                 request.env["kis.vehicle.in.out"].sudo().create({"car_no":p['plate']})
             elif camera_id in ["camera-3"]:
@@ -145,7 +184,7 @@ class HookData(http.Controller):
         pusher_client.trigger('main', 'all', {'message': data})
 
 
-    def pusher_extension_lane(self,data):
+    def pusher_lane_two(self,data):
         pusher_client = pusher.Pusher(
             app_id='1804733',
             key='318074f4614f41479a6c',
@@ -153,9 +192,9 @@ class HookData(http.Controller):
             cluster='us2',
             ssl=True
         )
-        pusher_client.trigger('extension', 'display-1', {'message': data})
+        pusher_client.trigger('lane_two', 'lp-2', {'message': data})
     
-    def pusher_waiting_lane(self,data):
+    def pusher_lane_one(self,data):
         pusher_client = pusher.Pusher(
             app_id='1804733',
             key='318074f4614f41479a6c',
@@ -163,7 +202,27 @@ class HookData(http.Controller):
             cluster='us2',
             ssl=True
         )
-        pusher_client.trigger('waiting', 'display-2', {'message': data})
+        pusher_client.trigger('lane_one', 'lp-1', {'message': data})
+
+    def pusher_lane_three(self,data):
+        pusher_client = pusher.Pusher(
+            app_id='1804733',
+            key='318074f4614f41479a6c',
+            secret='64e82fb5aef3e0fc3032',
+            cluster='us2',
+            ssl=True
+        )
+        pusher_client.trigger('lane_three', 'lp-3', {'message': data})
+
+    def pusher_lane_four(self,data):
+        pusher_client = pusher.Pusher(
+            app_id='1804733',
+            key='318074f4614f41479a6c',
+            secret='64e82fb5aef3e0fc3032',
+            cluster='us2',
+            ssl=True
+        )
+        pusher_client.trigger('lane_four', 'lp-4', {'message': data})
     
     def pusher_departure_route(self,data):
         pusher_client = pusher.Pusher(
@@ -194,12 +253,20 @@ class HookData(http.Controller):
         return request.render('plate_recognizer.main_template')
     
     @http.route('/lp-2',auth="public",type="http",csrf=False,website=True,methods=['GET'])
-    def extension_route(self):
-        return request.render('plate_recognizer.extension_template')
+    def lane_two(self):
+        return request.render('plate_recognizer.lane_two_template')
 
     @http.route('/lp-1',auth="public",type="http",csrf=False,website=True,methods=['GET'])
-    def waiting_route(self):
-        return request.render('plate_recognizer.waiting_template')
+    def lane_one(self):
+        return request.render('plate_recognizer.lane_one_template')
+    
+    @http.route('/lp-3',auth="public",type="http",csrf=False,website=True,methods=['GET'])
+    def lane_thrree(self):
+        return request.render('plate_recognizer.lane_three_template')
+
+    @http.route('/lp-4',auth="public",type="http",csrf=False,website=True,methods=['GET'])
+    def lane_four(self):
+        return request.render('plate_recognizer.lane_four_template')
 
     @http.route('/route',auth="public",type="http",csrf=False,website=True,methods=['GET'])
     def sing_route(self):

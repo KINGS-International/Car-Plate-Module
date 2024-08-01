@@ -11,6 +11,7 @@
                     <field name="student_id_code" />
                     <field name="student_academic" />
                     <field name="classroom" />
+                    <field name="lane"/>
                     <field name="car_no" />
                     <field name="real_car_no" />
                     <field name="vehicle_type"/>
@@ -32,10 +33,11 @@
                                 <field name="name" attrs="{'required': [('vehicle_type', '=', 'car')]}"/>
                                 <field name="student_id_code" />
                                 <field name="student_academic" />
+                                <field name="lane"/>
+                                <field name="is_sibling" />
                                 <field name="classroom" />
                                 <field name="car_no" />
                                 <field name="real_car_no" />
-                                <field name="is_sibling" />
                                 <field name="sibling_academic" attrs="{'required': [('is_sibling', '=', True)]}" />
 <!--                            <button name="get_car_no" class="btn btn-primary" type="object" string="Get" />-->
                             </group>

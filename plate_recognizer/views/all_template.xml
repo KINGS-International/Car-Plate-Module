@@ -7,16 +7,28 @@
                 <div id="main_plate" class="main_body" />
             </t>
         </template>
-        <template id="plate_recognizer.extension_template">
+        <template id="plate_recognizer.lane_two_template">
             <t t-call="website.layout">
-                <div id="extension_plate" class="main_body" />
+                <div id="lane_two_plate" class="main_body" />
             </t>
         </template>
-        <template id="plate_recognizer.waiting_template">
+        <template id="plate_recognizer.lane_one_template">
             <t t-call="website.layout">
-                <div id="waiting_plate" class="main_body" />
+                <div id="lane_one_plate" class="main_body" />
             </t>
         </template>
+
+        <template id="plate_recognizer.lane_three_template">
+            <t t-call="website.layout">
+                <div id="lane_three_plate" class="main_body" />
+            </t>
+        </template>
+        <template id="plate_recognizer.lane_four_template">
+            <t t-call="website.layout">
+                <div id="lane_four_plate" class="main_body" />
+            </t>
+        </template>
+
         <template id="plate_recognizer.sign_route">
             <t t-call="website.layout">
                 <div id="sing_route" class="main_body" />

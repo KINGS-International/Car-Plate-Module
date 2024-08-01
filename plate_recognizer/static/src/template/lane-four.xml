@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
-    <t t-name="plate_recognizer.Waiting" owl="1">
+    <t t-name="plate_recognizer.LaneFour" owl="1">
       <div class="container-custom">    
         <div id="app">
           <div class="row">

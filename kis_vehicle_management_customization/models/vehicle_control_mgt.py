@@ -8,11 +8,12 @@ class PlateRecognizer(models.Model):
     student_id_code = fields.Char(string="Student ID")
     name = fields.Char(string="Name")
     student_academic = fields.Selection(
-        [('preschool', 'Preschool'), ('lower_pri', 'Lower Primary'), ('upper_pri', 'Upper Primary'), ('lower_sec', 'Lower Secondary'), ('upper_sec', 'Upper Secondary'),
-        ('ncuk', 'NCUK'), ('oversea_agency', 'Oversea Agency'), ('higher_edu', 'Higher Education'), ('advisory', 'Advisory'),
-        ('training', 'Training'), ('others', 'Others')], string='Student Type')
+        [('preschool', 'Preschool'), ('y1', 'Year-1'), ('y2', 'Year-2'), ('y3', 'Year-3'), ('y4', 'Year-4'),
+        ('y5', 'Year-5'), ('y6', 'Year-6'), ('y7', 'Year-7'), ('y8', 'Year-8'), ('y9', 'Year-9'),
+        ('y10','Year-10'),('y11','Year-11'),('training', 'Training'),], string='Student Type')
     classroom = fields.Char(string='Classroom')
     car_no = fields.Char("Car No.", compute="get_stu_info", store=True)
+    lane = fields.Selection([('l1','Lane-one'),('l2','Lane-Two'),('l3','Lane-Three'),('l4','Lane-Four')],compute="_compute_lane",store=True)
     real_car_no = fields.Char("Real Car No.")
     is_sibling = fields.Boolean("Is Sibling")
     sibling_academic = fields.Selection(
@@ -20,6 +21,18 @@ class PlateRecognizer(models.Model):
         ('ncuk', 'NCUK'), ('oversea_agency', 'Oversea Agency'), ('higher_edu', 'Higher Education'), ('advisory', 'Advisory'),
         ('training', 'Training'), ('others', 'Others')], string="Sibling's Student Type")
     vehicle_type = fields.Selection([('ferry', 'Ferry'),('car','Car')],default='car',string="Vehicle Type", required=True)
+
+    @api.depends('student_academic','is_sibling')
+    def _compute_lane(self):
+        for rec in self:
+            if rec.is_sibling:
+                rec.lane = 'l4'
+            elif rec.student_academic in ['y3','y4','y6','y7','y8','y9']:
+                rec.lane = 'l1'
+            elif rec.student_academic in ['y1','y2','y5','preschool']:
+                rec.lane = 'l2'
+            elif rec.student_academic in ['y10','y11']:
+                rec.lane = 'l3'
 
     @api.depends('name', 'real_car_no')
     def get_stu_info(self):
