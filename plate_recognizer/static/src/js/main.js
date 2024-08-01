@@ -92,15 +92,25 @@ class SignRoute extends Component{
         })
         
     }
-     updateData(data){
-        console.log("sibling academinc type is",data.sibling_academic,'studentype is',data.sibling_academic)
-        if( this.state.car_no !== data.license_plate){
-            this.state.car_no = data.license_plate
-            this.state.lane = data.lane
-            this.state.camera_id= data.camera_id
-            // this.state.sibling_academic = data.sibling_academic
-        }
-     }
+    updateData(data){
+    console.log("sibling academinc type is",data.sibling_academic,'studentype is',data.sibling_academic)
+    if( this.state.car_no !== data.license_plate){
+        this.state.car_no = data.license_plate
+        this.state.lane = data.lane
+        this.state.camera_id= data.camera_id
+        // this.state.sibling_academic = data.sibling_academic
+        setTimeout(() => {
+            this.clearState();
+        }, 15000); 
+    }
+    }
+
+clearState() {
+    this.state.car_no = '';
+    this.state.lane = '';
+    this.state.camera_id = '';
+    // Reset other state properties as needed
+}
     
 }
 
