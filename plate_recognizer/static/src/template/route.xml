@@ -22,7 +22,7 @@
                             <h1>Please go to Gate-5</h1>
                         </t>
                         <t t-else="">
-                            <img t-attf-src="plate_recognizer/static/src/img/i.png"   height="600px" alt="..." />
+                            <img t-attf-src="plate_recognizer/static/src/img/i.png"  alt="..." />
                             <h1 class="text-break" style="color:#f8b218 !important;">Welcome to KINGS International School</h1>
                         </t>
                       
