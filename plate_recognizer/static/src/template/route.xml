@@ -22,8 +22,8 @@
                             <h1>Please go to Gate-5</h1>
                         </t>
                         <t t-else="">
-                            <span class="material-symbols-outlined traffic-icon icon-flipped">directions</span>
-                            <h1 class="text-break">Welcome to KINGS International School</h1>
+                            <img t-attf-src="plate_recognizer/static/src/img/i.png"   height="600px" alt="..." />
+                            <h1 class="text-break" style="color:#f8b218 !important;">Welcome to KINGS International School</h1>
                         </t>
                       
                     </div>
