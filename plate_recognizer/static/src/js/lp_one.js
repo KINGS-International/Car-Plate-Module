@@ -36,6 +36,7 @@ class LaneOne extends Component{
             if(ind !== -1){
                 console.log("Departure car is working",ind,data.plate)
                 this.state.splice(ind,1)
+                this.state.splice(ind,1)
             }else{
                 console.log("Departure car is not working",ind,data.plate)
             }

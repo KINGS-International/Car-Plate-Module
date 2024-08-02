@@ -122,6 +122,7 @@ class HookData(http.Controller):
                         self.pusher_lane_four(vehicle_data)
                         print(f"Coming car is{camera_id} and is sibling and lane {veh.lane} {veh.student_academic}")
                         
+            ##### need looping #####
             if camera_id in ["camera-1","camera-2","camera-3","camera-4"]:
                 check_in_out_obj = request.env["kis.vehicle.in.out"].search([("car_no", "=",p['plate'] ),("check_out", "=", False)], limit=1)
                 if not  check_in_out_obj:

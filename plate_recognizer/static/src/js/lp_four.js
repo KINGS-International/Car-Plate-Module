@@ -1,7 +1,6 @@
 /** @odoo-module */
 const {Component,whenReady,mount,onWillStart,onMounted,useState}  = owl;
-import {templates,loadJS} from '@web/core/assets'
-
+import {templates,loadJS} from '@web/core/assets';
 /**
   *@LaneFour template area
 */
@@ -9,6 +8,7 @@ class LaneFour extends Component{
     setup(){
         console.log("I am lane four -------------------")
         this.state =useState([])
+
         onWillStart(async ()=>{
             await loadJS('https://js.pusher.com/7.0/pusher.min.js')
         })
@@ -36,16 +36,19 @@ class LaneFour extends Component{
             if(ind !== -1){
                 console.log("Departure car is working",ind,data.plate)
                 this.state.splice(ind,1)
+                this.state.splice(ind,1)
             }else{
                 console.log("Departure car is not working",ind,data.plate)
             }
+          
         }
      }
  
     updateData(data){
         if (data.camera_id === 'camera-4'){
-            // var ind = this.state.findIndex(d => d.car_no === data.license_plate && d.camera_id === 'camera-2')
-            if(data.is_sibling ){
+            var ind = this.state.findIndex(d => d.raw_carno === data.raw_carno)
+            console.log(ind)
+            if(data.is_sibling && ind === -1 ){
                 this.state.push({
                     'raw_carno':data.raw_carno,
                     'id': data.student_id,
