@@ -1,12 +1,21 @@
 /** @odoo-module */
-const {Component,whenReady,mount,onWillStart,onMounted,useState}  = owl;
-import {templates,loadJS} from '@web/core/assets'
+
+import {Component,whenReady,mount,onWillStart,onMounted,useState}   from '@odoo/owl'
+import {templates,loadJS} from '@web/core/assets';
+import { jsonrpc } from '@web/core/network/rpc_service';
 
 class MainPlate extends Component{
     setup(){
         this.state =useState([])
         onWillStart(async ()=>{
-            await loadJS('https://js.pusher.com/7.0/pusher.min.js')
+            await loadJS('https://js.pusher.com/7.0/pusher.min.js');
+            // const data = await jsonrpc("http://localhost:8070/web/dataset/call_kw/kis.vehicle.control/search_read",{
+            //     model : 'kis.vehicle.control',
+            //     method : "search_read",
+            //     args:[[],['raw_carno', 'student_id', 'student_name', 'classroom', 'license_plate', 'camera_id']],
+            //     kwargs:{}
+            // })
+            // console.log(data)
         })
 
         onMounted(()=>{
@@ -34,7 +43,6 @@ class MainPlate extends Component{
             if(ind !== -1){
                 console.log("Departure car is working",ind,data.plate)
                 this.state.splice(ind,1)
-                this.state.splice(ind,1)
             }else{
                 console.log("Departure car is not working",ind,data.plate)
             }
@@ -44,7 +52,7 @@ class MainPlate extends Component{
     updateData(data){
         if (data){
             var ind = this.state.findIndex(d => d.car_no === data.license_plate)
-            if(ind === -1){
+            // if(ind === -1){
                 this.state.push({
                     'raw_carno':data.raw_carno,
                     'id': data.student_id,
@@ -53,9 +61,10 @@ class MainPlate extends Component{
                     'car_no':data.license_plate,
                     'camera_id':data.camera_id
                 })
-            }else{
-                console.log("Existing Car --")
-            }
+            // }
+            // else{
+            //     console.log("Existing Car --")
+            // }
         }
     }
       
@@ -102,7 +111,7 @@ class SignRoute extends Component{
         // this.state.sibling_academic = data.sibling_academic
         setTimeout(() => {
             this.clearState();
-        }, 15000); 
+        }, 20000); 
     }
     }
 
