@@ -39,10 +39,10 @@
                         <h1>Guest Lane [Loop 1]</h1>
                     </t>        -->
                     <t t-if="this.state.lane == 'l1'">
-                        <h1>Loop One</h1>
+                        <h1>Loop 1</h1>
                     </t>
                     <t t-elif="this.state.lane == 'l2'">
-                        <h1>Loop Two</h1>
+                        <h1>Loop 2</h1>
                     </t>
                
                 </div>
