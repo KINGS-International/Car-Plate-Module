@@ -63,7 +63,7 @@ class HookData(http.Controller):
             ## guest car
             else:
                 if camera_id in ['camera-1','camera-2']:
-                    format_late = f"{real_plate[:2].upper}-{real_plate[2:]}"
+                    format_late = f"{real_plate[:2].upper()}-{real_plate[2:]}"
                     guest_data = {'license_plate':format_late,'lane':'guest'}
                     self.pusher_sign_route(guest_data)
                     request.env["kis.vehicle.in.out"].sudo().create({"car_no":real_plate,"check_in": datetime.now()})
@@ -148,7 +148,7 @@ class HookData(http.Controller):
 
         else:
             if camera_id in ['camera-1','camera-2']:
-                format_late = f"{p['plate'][:2].upper}-{p['plate'][2:]}"
+                format_late = f"{p['plate'][:2].upper()}-{p['plate'][2:]}"
                 guest_data = {'license_plate':format_late,'lane':'guest'}
                 self.pusher_sign_route(guest_data)
                 print("Not car ----------------------------",p['plate'][:2],camera_id)
