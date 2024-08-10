@@ -34,41 +34,34 @@ class HookData(http.Controller):
                         "is_sibling": veh.is_sibling,
                         "camera_id":camera_id,
                     }
-                    if camera_id in ['camera-1','camera-2']:
+                    if camera_id in ['camera-5','camera-6']:
                         self.pusher_sign_route(vehicle_data)
                         self.pusher_client_all(vehicle_data) ## main route 
-                        if veh.student_academic in ['y3','y4','y6','y7','y8','y9'] and veh.lane == 'l1':
-                            self.pusher_lane_one(vehicle_data)
-                            print(f"Coming car is{camera_id} and is sibling and lane - 1 {veh.student_academic}")
+                        if veh.student_academic in ['y10','y11',] and veh.lane == 'l3':
+                            self.pusher_lane_three(vehicle_data)
+                            print(f"Coming car is{camera_id} and is sibling and lane - 3 {veh.student_academic}")
 
-                        elif veh.student_academic in ['y1','y2','y5','preschool'] and veh.lane == 'l2':
-                            self.pusher_lane_two(vehicle_data)
+                        elif veh.is_sibling and veh.lane == 'l4':
+                            self.pusher_lane_four(vehicle_data)
                             print(f"Coming car is{camera_id} and is sibling and lane is {veh.lane} {veh.student_academic} {datetime.now()}")
 
-                        elif veh.is_sibling:
-                            self.pusher_sign_route(vehicle_data)
-                            print(f"Coming car is{camera_id} and is sibling and lane is {veh.lane} {veh.student_academic}")
-
-                    elif camera_id in ["camera-3","camera-4"]:
-                        self.pusher_departure_route({'plate':vehicle_data['raw_carno']}) ## departpure route
+                    elif camera_id in ["camera-7","camera-8"]:
+                        self.pusher_ext_departure_route({'plate':vehicle_data['raw_carno']}) ## departpure route
                         check_in_out_obj = request.env["kis.vehicle.in.out"].search([("car_no", "=",real_plate ),("check_out", "=", False)], limit=1)
+                        print("Exit car is --------------------",check_in_out_obj)
                         if check_in_out_obj:
                             check_in_out_obj.sudo().write({"check_out": datetime.now()})   
                             
-                if camera_id in ["camera-1","camera-2"]:
+                if camera_id in ["camera-5","camera-6"]:
                     check_in_out_obj = request.env["kis.vehicle.in.out"].search([("car_no", "=",real_plate ),("check_out", "=", False)], limit=1)
                     if not  check_in_out_obj:
                         request.env["kis.vehicle.in.out"].sudo().create({"car_no": real_plate,"check_in":datetime.now()})
-            
-            ## guest car
-            else:
-                if camera_id in ['camera-1','camera-2']:
-                    format_late = f"{real_plate[:2].upper()}-{real_plate[2:]}"
-                    guest_data = {'license_plate':format_late,'lane':'guest'}
-                    self.pusher_sign_route(guest_data)
-                    request.env["kis.vehicle.in.out"].sudo().create({"car_no":real_plate,"check_in": datetime.now()})
 
-                elif camera_id in ['camera-3','camera-4']:
+            else:
+                if camera_id in ['camera-5','camera-6']:
+                    request.env["kis.vehicle.in.out"].sudo().create({"car_no":real_plate,"check_in": datetime.now()})
+                elif camera_id in ['camera-7','camera-8']:
+                    print("Not car ----------------------------",real_plate,camera_id)
                     check_in_out_obj = request.env["kis.vehicle.in.out"].search([("car_no", "=", real_plate), ("check_out", "=", False)],limit=1)
                     check_in_out_obj.sudo().write({"check_out": datetime.now()})
 
