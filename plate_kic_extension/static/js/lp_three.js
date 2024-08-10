@@ -24,7 +24,7 @@ class LaneThree extends Component{
                 self.updateData(data.message)
                 console.log("input data --",data.message)
             });
-            pusher.subscribe('out').bind('departure',function(data){
+            pusher.subscribe('ext-out').bind('ext-departure',function(data){
                 self.departureData(data.message)
             })
         })
@@ -36,7 +36,6 @@ class LaneThree extends Component{
             if(ind !== -1){
                 console.log("Departure car is working",ind,data.plate)
                 this.state.splice(ind,1)
-                this.state.splice(ind,1)
             }else{
                 console.log("Departure car is not working",ind,data.plate)
             }
@@ -44,7 +43,7 @@ class LaneThree extends Component{
      }
  
     updateData(data){
-        if (data.camera_id === 'camera-3'){
+        if (data.camera_id === 'camera-5'){
             var ind = this.state.findIndex(d => d.car_no === data.license_plate)
             if(ind === -1){
                 this.state.push({
@@ -63,7 +62,7 @@ class LaneThree extends Component{
     
 }
 
-LaneThree.template = 'plate_recognizer.LaneThree'
+LaneThree.template = 'plate_kic_extension.LaneThree'
 whenReady(()=>{
     const element = document.querySelector('#lane_three_plate')
     if (element){

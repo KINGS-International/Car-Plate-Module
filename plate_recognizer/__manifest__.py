@@ -12,9 +12,15 @@
     ],
     "assets":{
         'web.assets_frontend' : [
-            'plate_recognizer/static/src/js/*',
+            'plate_recognizer/static/src/js/lp_one.js',
+            'plate_recognizer/static/src/js/lp_two.js',
+            'plate_recognizer/static/src/js/main.js',
             'plate_recognizer/static/src/scss/*',
-            'plate_recognizer/static/src/template/*'
+            'plate_recognizer/static/src/template/lane-one.xml',
+            'plate_recognizer/static/src/template/lane-two.xml',
+            'plate_recognizer/static/src/template/main.xml',
+            'plate_recognizer/static/src/template/route.xml',
+          
         ],
     }
 }

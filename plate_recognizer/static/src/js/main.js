@@ -111,7 +111,7 @@ class SignRoute extends Component{
         // this.state.sibling_academic = data.sibling_academic
         setTimeout(() => {
             this.clearState();
-        }, 20000); 
+        }, 25000); 
     }
     }
 
