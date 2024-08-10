@@ -35,8 +35,6 @@ class HookData(http.Controller):
                         "camera_id":camera_id,
                     }
                     if camera_id in ['camera-5','camera-6']:
-                        self.pusher_sign_route(vehicle_data)
-                        self.pusher_client_all(vehicle_data) ## main route 
                         if veh.student_academic in ['y10','y11',] and veh.lane == 'l3':
                             self.pusher_lane_three(vehicle_data)
                             print(f"Coming car is{camera_id} and is sibling and lane - 3 {veh.student_academic}")
