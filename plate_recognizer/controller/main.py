@@ -206,14 +206,6 @@ class HookData(http.Controller):
     @http.route('/lp-1',auth="public",type="http",csrf=False,website=True,methods=['GET'])
     def lane_one(self):
         return request.render('plate_recognizer.lane_one_template')
-    
-    # @http.route('/lp-3',auth="public",type="http",csrf=False,website=True,methods=['GET'])
-    # def lane_thrree(self):
-    #     return request.render('plate_recognizer.lane_three_template')
-
-    # @http.route('/lp-4',auth="public",type="http",csrf=False,website=True,methods=['GET'])
-    # def lane_four(self):
-    #     return request.render('plate_recognizer.lane_four_template')
 
     @http.route('/route',auth="public",type="http",csrf=False,website=True,methods=['GET'])
     def sing_route(self):
