@@ -17,7 +17,7 @@ class HookData(http.Controller):
             plate_no = result["plate"][:6]
             camera_id = json_data["data"]["camera_id"]
             real_plate = ''
-            if plate_no[1] == "0":
+            if plate_no[:1] == "0":
                 real_plate = plate_no[:1] + "q" + plate_no[2:]
             else:
                 real_plate = plate_no
