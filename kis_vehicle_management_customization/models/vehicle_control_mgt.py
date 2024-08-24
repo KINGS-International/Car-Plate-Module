@@ -27,9 +27,9 @@ class PlateRecognizer(models.Model):
         for rec in self:
             if rec.is_sibling:
                 rec.lane = 'l4'
-            elif rec.student_academic in ['y3','y4','y6','y7','y8','y9']:
+            elif rec.student_academic in ['y3','y4','y6','y8','y9']:
                 rec.lane = 'l1'
-            elif rec.student_academic in ['y1','y2','y5','preschool']:
+            elif rec.student_academic in ['y1','y2','y5','y7','preschool']:
                 rec.lane = 'l2'
             elif rec.student_academic in ['y10','y11']:
                 rec.lane = 'l3'
