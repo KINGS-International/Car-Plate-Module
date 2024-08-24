@@ -20,7 +20,7 @@
                     <td scope="col"><t t-esc="t_index + 1"/></td>
                     <!-- <t t-set="index" t-value="index"/> -->
                     <td scope="col" class="stu-name">  <t t-esc="t.name"/></td>
-                    <td scope="col"><t t-esc="t.classroom"/></td>
+                    <td scope="col" class="stu-class"><t t-esc="t.classroom"/></td>
                     <td scope="col" class="car-no"><t t-esc="t.car_no"/></td>
                   </tr>
                 </tbody>
@@ -44,7 +44,7 @@
                     <td scope="col"><t t-esc="t_index + 1"/></td>
                     <!-- <t t-set="index" t-value="index +1"/> -->
                     <td scope="col" class="stu-name">  <t t-esc="t.name"/></td>
-                    <td scope="col"><t t-esc="t.classroom"/></td>
+                    <td scope="col" class="stu-class"><t t-esc="t.classroom"/></td>
                     <td scope="col" class="car-no"><t t-esc="t.car_no"/></td>
                   </tr>
                 </tbody>
