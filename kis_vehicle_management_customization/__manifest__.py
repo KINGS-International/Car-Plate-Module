@@ -13,8 +13,8 @@
     'author': 'Shun Lai Thu',
     "data": [
             'security/ir.model.access.csv',
-            'views/vehicle_control_mgt_views.xml',
             'views/vehicle_in_out_view.xml',
+            'views/vehicle_control_mgt_views.xml',
     ],
 
 }

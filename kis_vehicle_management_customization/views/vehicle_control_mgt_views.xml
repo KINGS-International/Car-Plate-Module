@@ -30,7 +30,7 @@
                         <group>
                             <group>
                                 <field name="vehicle_type" widget="radio" options="{'horizontal': True}"/>
-                                <field name="name" attrs="{'required': [('vehicle_type', '=', 'car')]}"/>
+                                <field name="name"/>
                                 <field name="student_id_code" />
                                 <field name="student_academic" />
                                 <field name="lane"/>
@@ -38,7 +38,7 @@
                                 <field name="classroom" />
                                 <field name="car_no" />
                                 <field name="real_car_no" />
-                                <field name="sibling_academic" attrs="{'required': [('is_sibling', '=', True)]}" />
+                                <field name="sibling_academic" />
 <!--                            <button name="get_car_no" class="btn btn-primary" type="object" string="Get" />-->
                             </group>
                             <group></group>

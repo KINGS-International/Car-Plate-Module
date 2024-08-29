@@ -16,7 +16,7 @@
                 </thead>
                 <tbody>
                   <!-- <t t-set="index" t-value="1"/> -->
-                  <tr t-foreach="this.state" t-as="t" t-key="t" t-if="(t_index + 1) % 2 == 1"> 
+                  <tr t-foreach="this.state" t-as="t" t-key="t"> 
                     <td scope="col"><t t-esc="t_index + 1"/></td>
                     <!-- <t t-set="index" t-value="index"/> -->
                     <td scope="col" class="stu-name">  <t t-esc="t.name"/></td>
